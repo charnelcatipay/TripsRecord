@@ -30,6 +30,16 @@ namespace TripsRecord
             var position = await locator.GetPositionAsync();
         }
 
+        protected override async void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            var locator = CrossGeolocator.Current;
+            locator.PositionChanged -= Locator_PositionChanged;
+
+            await locator.StopListeningAsync();
+        }
+
         private void Locator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
         {
             var center = new Xamarin.Forms.Maps.Position(e.Position.Latitude, e.Position.Longitude);
