@@ -12,6 +12,11 @@ namespace TripsRecord
 		public MainPage()
 		{
 			InitializeComponent();
+
+            var assembly = typeof(MainPage);
+
+
+            iconImage.Source = ImageSource.FromResource("TripsRecord.Assets.Images.manphone.png", assembly);
 		}
 
         private void loginButton_Clicked(object sender, EventArgs e)
