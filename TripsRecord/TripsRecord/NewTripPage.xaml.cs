@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TripsRecord.Logic;
 using TripsRecord.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -27,7 +26,7 @@ namespace TripsRecord
             var locator = CrossGeolocator.Current;
             var position = await locator.GetPositionAsync();
 
-            var venues = await VenueLogic.GetVenues(position.Latitude, position.Longitude);
+            var venues = await Venue.GetVenues(position.Latitude, position.Longitude);
 
             venueListView.ItemsSource = venues;
         }
@@ -52,7 +51,8 @@ namespace TripsRecord
                     UserId = App.user.Id
                 };
 
-                await App.MobileService.GetTable<Post>().InsertAsync(post);
+                //await App.MobileService.GetTable<Post>().InsertAsync(post);
+                Post.Insert(post);
                 await DisplayAlert("Success", "Experience successfully inserted", "Ok");
             }
             catch (NullReferenceException nre)

@@ -39,27 +39,29 @@ namespace TripsRecord.Model
         public Location location { get; set; }
         public IList<Category> categories { get; set; }
 
-        //public async static Task<List<Venue>> GetVenues(double latitude, double longitude)
-        //{
-        //    List<Venue> venues = new List<Venue>();
+        public async static Task<List<Venue>> GetVenues(double latitude, double longitude)
+        {
 
-        //    var url = VenueRoot.GenerateURL(latitude, longitude);
+            List<Venue> venues = new List<Venue>();
 
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        var response = await client.GetAsync(url);
-        //        var json = await response.Content.ReadAsStringAsync();
+            var url = VenueRoot.GenerateURL(latitude, longitude);
 
-        //        var venueRoot = JsonConvert.DeserializeObject<VenueRoot>(json);
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(url);
+                var json = await response.Content.ReadAsStringAsync();
 
-        //        venues = venueRoot.response.venues as List<Venue>;
-        //    }
+                var venueRoot = JsonConvert.DeserializeObject<VenueRoot>(json);
 
-        //    return venues;
-        //}
-    }
+                venues = venueRoot.response.venues as List<Venue>;
+            }
 
-    public class Response
+            return venues;
+        }
+
+        }
+
+        public class Response
     {
         public IList<Venue> venues { get; set; }
     }
