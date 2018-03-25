@@ -32,7 +32,7 @@ namespace TripsRecord
             venueListView.ItemsSource = venues;
         }
 
-        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             try
             {
@@ -48,26 +48,21 @@ namespace TripsRecord
                     Distance = selectedVenue.location.distance,
                     Latitude = selectedVenue.location.lat,
                     Longitude = selectedVenue.location.lng,
-                    VenueName = selectedVenue.name
+                    VenueName = selectedVenue.name,
+                    UserId = App.user.Id
                 };
 
-                using (SQLiteConnection conn = new SQLiteConnection(App.DatabaseLocation))
-                {
-                    conn.CreateTable<Post>();
-
-                    int rows = conn.Insert(post);
-                    conn.Close();
-
-                    if (rows > 0)
-                        DisplayAlert("Success", "Experience Successfully Inserted", "Ok");
-                    else
-                        DisplayAlert("Failure", "Experience Failed to be Inserted", "Ok");
-                }
+                await App.MobileService.GetTable<Post>().InsertAsync(post);
+                await DisplayAlert("Success", "Experience successfully inserted", "Ok");
             }
             catch (NullReferenceException nre)
-            { }
+            {
+                await DisplayAlert("Failure", "Experience failed to be inserted", "Ok");
+            }
             catch (Exception ex)
-            { }
+            {
+                await DisplayAlert("Failure", "Experience failed to be inserted", "Ok");
+            }
 
             }
         
