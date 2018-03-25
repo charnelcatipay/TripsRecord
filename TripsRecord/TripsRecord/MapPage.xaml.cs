@@ -40,19 +40,22 @@ namespace TripsRecord
             await locator.StopListeningAsync();
         }
 
-        private void Locator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
+        private async void Locator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
         {
             var center = new Xamarin.Forms.Maps.Position(e.Position.Latitude, e.Position.Longitude);
             var span = new Xamarin.Forms.Maps.MapSpan(center, 2, 2);
             locationsMap.MoveToRegion(span);
 
-            using (SQLiteConnection conn = new SQLiteConnection(App.DatabaseLocation))
-            {
-                conn.CreateTable<Post>();
-                var posts = conn.Table<Post>().ToList();
+            //using (SQLiteConnection conn = new SQLiteConnection(App.DatabaseLocation))
+            //{
+            //    conn.CreateTable<Post>();
+            //    var posts = conn.Table<Post>().ToList();
 
-                DisplayInMap(posts);
-            }
+            //    DisplayInMap(posts);
+            //}
+
+            var posts = await App.MobileService.GetTable<Post>().Where(p => p.UserId == App.user.Id).ToListAsync();
+            DisplayInMap(posts);
         }
 
         private void DisplayInMap(List<Post> posts)
