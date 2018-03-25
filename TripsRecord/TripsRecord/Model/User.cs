@@ -9,13 +9,13 @@ namespace TripsRecord.Model
 {
     public class User : INotifyPropertyChanged
     {
-       
         private string id;
 
         public string Id
         {
             get { return id; }
-            set {
+            set
+            {
                 id = value;
                 OnPropertyChanged("Id");
             }
@@ -26,7 +26,8 @@ namespace TripsRecord.Model
         public string Email
         {
             get { return email; }
-            set {
+            set
+            {
                 email = value;
                 OnPropertyChanged("Email");
             }
@@ -37,20 +38,33 @@ namespace TripsRecord.Model
         public string Password
         {
             get { return password; }
-            set {
+            set
+            {
                 password = value;
                 OnPropertyChanged("Password");
             }
         }
 
+        private string confirmPassword;
+
+        public string ConfirmPassword
+        {
+            get { return confirmPassword; }
+            set
+            {
+                confirmPassword = value;
+                OnPropertyChanged("ConfirmPassword");
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-    
-
 
         public static async Task<bool> Login(string email, string password)
         {
@@ -69,14 +83,9 @@ namespace TripsRecord.Model
                 {
                     App.user = user;
                     if (user.Password == password)
-                    {
                         return true;
-                    }
                     else
-                    {
                         return false;
-                    }
-
                 }
                 else
                 {
@@ -90,6 +99,5 @@ namespace TripsRecord.Model
         {
             await App.MobileService.GetTable<User>().InsertAsync(user);
         }
-
     }
 }

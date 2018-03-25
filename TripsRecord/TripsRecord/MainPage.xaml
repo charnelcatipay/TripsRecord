@@ -18,7 +18,7 @@
                Keyboard="Email"/>
         <Entry x:Name="passwordEntry" 
                Placeholder="Password"
-               Text="test"
+               Text="c"
                IsPassword="True"
                 TextColor="{StaticResource blueColor}"/>
         <Button x:Name="loginButton" 
