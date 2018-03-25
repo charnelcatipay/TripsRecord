@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TripsRecord.Model;
 using Xamarin.Forms;
 
 namespace TripsRecord
@@ -19,16 +20,36 @@ namespace TripsRecord
             iconImage.Source = ImageSource.FromResource("TripsRecord.Assets.Images.manphone.png", assembly);
 		}
 
-        private void loginButton_Clicked(object sender, EventArgs e)
+        private async void loginButton_Clicked(object sender, EventArgs e)
         {
+           
             bool isEmailEmpty = string.IsNullOrEmpty(emailEntry.Text);
             bool isPasswordEmpty = string.IsNullOrEmpty(passwordEntry.Text);
 
             if (isEmailEmpty || isPasswordEmpty)
-            { }
+            {
+            }
             else
             {
-               Navigation.PushAsync(new HomePage());
+                var user = (await App.MobileService.GetTable<User>().Where(u => u.Email == emailEntry.Text).ToListAsync()).FirstOrDefault();
+
+                if (user != null)
+                {
+                    if (user.Password == passwordEntry.Text)
+                    {
+                        await Navigation.PushAsync(new HomePage());
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Email or password are incorrect", "Ok");
+                    }
+                    
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Email or password are incorrect", "Ok");
+                }
+                
             }
         }
 
