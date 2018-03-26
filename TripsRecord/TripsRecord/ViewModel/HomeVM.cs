@@ -7,16 +7,17 @@ namespace TripsRecord.ViewModel
 {
     public class HomeVM
     {
-        public NavigationCommand NavCommand;
+        public NavigationCommand NavCommand { get; set; }
 
         public HomeVM()
         {
             NavCommand = new NavigationCommand(this);
         }
 
-        public void Navigate()
+        public async void Navigate()
         {
             //Todo
+            await App.Current.MainPage.Navigation.PushAsync(new NewTripPage());
         }
     }
 }

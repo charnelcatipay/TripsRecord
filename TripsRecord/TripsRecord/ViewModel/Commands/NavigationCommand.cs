@@ -18,12 +18,12 @@ namespace TripsRecord.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            HomeViewModel.Navigate();
         }
     }
 }
