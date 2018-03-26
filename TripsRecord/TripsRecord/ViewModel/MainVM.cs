@@ -20,6 +20,7 @@ namespace TripsRecord.ViewModel.Commands
             }
         }
 
+        public RegisterNavigationCommand RegisterNavigationCommand { get; set; }
         public LoginCommand LoginCommand { get; set; }
 
         private string email;
@@ -66,6 +67,7 @@ namespace TripsRecord.ViewModel.Commands
         {
             User = new User();
             LoginCommand = new LoginCommand(this);
+            RegisterNavigationCommand = new RegisterNavigationCommand(this);
         }
 
         public async void Login()
@@ -75,6 +77,10 @@ namespace TripsRecord.ViewModel.Commands
                 await App.Current.MainPage.Navigation.PushAsync(new HomePage());
             else
                 await App.Current.MainPage.DisplayAlert("Error", "Email or password are incorrect", "Ok");
+        }
+        public async void Navigate()
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
     }
 }
