@@ -20,6 +20,7 @@ namespace TripsRecord.Droid
 
             base.OnCreate(bundle);
 
+            global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             Xamarin.FormsMaps.Init(this, bundle);
